@@ -1,7 +1,4 @@
 fastapi
 uvicorn
 telethon
-<<<<<<< HEAD
-=======
 python-dotenv
->>>>>>> ab3e4cc (Lokaler Build erfolgreich: FastAPI & Telethon laufen)
