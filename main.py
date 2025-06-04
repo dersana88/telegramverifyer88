@@ -56,7 +56,7 @@ async def keep_alive():
             # brechen aber nicht ab. Beim nächsten Zyklus versuchen wir es wieder.
             print(f"[KeepAlive] Telethon-Error: {e}")
         # Warte 30 Minuten (1800 Sekunden) bis zum nächsten Keep-Alive
-        await asyncio.sleep(1800)
+        await asyncio.sleep(120)
 
 # ───────────────────────────────────────────────────────────────────────────────
 # 4️⃣ Startup- und Shutdown-Handler für FastAPI
