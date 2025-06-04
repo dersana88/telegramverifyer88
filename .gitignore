@@ -1,9 +1,0 @@
-# Virtuelle Umgebung / Bytecode / Session-Files / Env-Files
-.venv/
-env/
-__pycache__/
-*.pyc
-railway_verifier_session.session
-*.session
-.env
-railway.*
