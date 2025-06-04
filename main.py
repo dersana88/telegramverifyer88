@@ -6,10 +6,7 @@ from telethon.tl.types import InputPhoneContact
 from dotenv import load_dotenv
 import os
 
-# ───────────────────────────────────────────────────────────────────────────────
-# 1️⃣ Load environment (muss vor dem Zugriff auf os.getenv stehen)
-# ───────────────────────────────────────────────────────────────────────────────
-load_dotenv()  # Liest .env im Arbeitsverzeichnis
+load_dotenv()
 
 
 raw_api_id = os.getenv("TELEGRAM_API_ID")
@@ -30,37 +27,25 @@ except ValueError:
 
 session_name = "railway_verifier_session"
 
-# ───────────────────────────────────────────────────────────────────────────────
-# 2️⃣ FastAPI & Telethon-Setup
-# ───────────────────────────────────────────────────────────────────────────────
+
 app = FastAPI()
 client = TelegramClient(session_name, api_id, api_hash)
 
 @app.on_event("startup")
 async def startup():
 
-    await client.connect()
-    if not await client.is_user_authorized():
-       
-        raise RuntimeError(
-            "Telegram-Session nicht autorisiert. "
-            "Führe 'python main.py' lokal durch, um die Session zu authentifizieren."
-        )
+    await client.start(phone=phone)
 
 @app.on_event("shutdown")
 async def shutdown():
  
     await client.disconnect()
 
-# ───────────────────────────────────────────────────────────────────────────────
-# 3️⃣ Pydantic-Schema
-# ───────────────────────────────────────────────────────────────────────────────
+
 class Number(BaseModel):
     phone_number: str
 
-# ───────────────────────────────────────────────────────────────────────────────
-# 4️⃣ Endpoint: /verify
-# ───────────────────────────────────────────────────────────────────────────────
+
 @app.post("/verify")
 async def verify_number(payload: Number):
 
@@ -82,9 +67,7 @@ async def verify_number(payload: Number):
         "telegram_user": user is not None
     }
 
-# ───────────────────────────────────────────────────────────────────────────────
-# 5️⃣ Lokaler Start-Block (nur für `python main.py`)
-# ───────────────────────────────────────────────────────────────────────────────
+
 if __name__ == "__main__":
     import uvicorn
 
